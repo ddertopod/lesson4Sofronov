@@ -1,0 +1,40 @@
+service:
+  base_url: "http://127.0.0.1:8000"
+
+monitoring:
+  check_interval_seconds: 30
+  samples_per_check: 3
+  request_timeout_seconds: 10
+
+thresholds:
+  response_time_ms:
+    warning: 2000
+    critical: 5000
+  p95_latency_ms:
+    warning: 3000
+    critical: 6000
+  error_rate_percent:
+    warning: 10
+    critical: 25
+  consecutive_failures:
+    warning: 3
+    critical: 5
+
+alerts:
+  enabled: true
+  cooldown_minutes: 5
+
+logging:
+  console_colors: true
+  log_file: "logs/monitoring.log"
+  metrics_file: "logs/metrics.jsonl"
+
+endpoints:
+  batch: "/predict_batch"
+
+inference:
+  mode: "multi-file"
+  multipart_field_name: "files"       
+  load_batch_from_csv: "results/optimization_results.csv"          
+  files_per_request: 3                
+  file_source_dir: "testimg"       
